@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Quicksand:wght@400;600&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  background: linear-gradient(to bottom, #f9e8d8, #fff7ef);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#book-container {
+  position: relative;
+  width: 80vw;
+  height: 80vh;
+  background: #fffef9;
+  box-shadow: 0 0 40px rgba(0,0,0,0.2);
+  border-radius: 20px;
+  overflow: hidden;
+  perspective: 1200px;
+}
+
+/* Scène */
+.scene {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s ease;
+}
+
+.scene img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateZ(30px) scale(0.98);
+  transition: transform 0.8s ease;
+}
+
+.scene:hover img {
+  transform: translateZ(60px) scale(1.02);
+}
+
+/* Texte */
+.text-box {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  right: 5%;
+  background: rgba(255,255,255,0.85);
+  padding: 20px;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  transform: translateZ(80px);
+}
+
+/* Navigation */
+.nav {
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+}
+
+button {
+  font-size: 1.5rem;
+  padding: 8px 14px;
+  margin: 0 4px;
+  background: #ffb84d;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #ffd280;
+}
+
+/* Barre de progression */
+#progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(0,0,0,0.1);
+}
+
+#progress {
+  height: 100%;
+  background: #ffb84d;
+  width: 5%;
+  transition: width 0.4s ease;
+}
+
+/* Bouton musique */
+.music-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.8);
+  border: 2px solid #ffb84d;
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-size: 1rem;
+  cursor: pointer;
+}

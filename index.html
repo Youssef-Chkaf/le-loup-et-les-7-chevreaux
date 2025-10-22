@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Le Loup et les 7 Chevreaux – Conte interactif</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="book-container">
+      <!-- Barre de progression -->
+      <div id="progress-bar"><div id="progress"></div></div>
+
+      <!-- Scène -->
+      <div id="scene" class="scene">
+        <img id="scene-image" src="assets/images/scene1.jpg" alt="Scène 1" />
+        <div id="text-box" class="text-box">
+          <p id="scene-text">
+            Il était une fois, une maman chèvre et ses sept chevreaux...
+          </p>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="nav">
+        <button id="prevBtn">◀</button>
+        <button id="nextBtn">▶</button>
+      </div>
+
+      <!-- Musique -->
+      <audio id="bg-music" src="assets/audio/intro.mp3" loop></audio>
+      <button id="musicBtn" class="music-btn">🔊 Musique</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
