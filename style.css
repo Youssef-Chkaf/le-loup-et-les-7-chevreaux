@@ -1,108 +1,175 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Quicksand:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Playfair+Display:wght@600&family=Quicksand:wght@400;600&display=swap');
 
 body {
   margin: 0;
   font-family: 'Quicksand', sans-serif;
-  background: linear-gradient(to bottom, #f9e8d8, #fff7ef);
+  background: url('assets/images/background.png') center center fixed;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 #book-container {
   position: relative;
-  width: 80vw;
-  height: 80vh;
-  background: #fffef9;
-  box-shadow: 0 0 40px rgba(0,0,0,0.2);
-  border-radius: 20px;
-  overflow: hidden;
-  perspective: 1200px;
+  width: 95vw;
+  height: 95vh;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
 }
 
 /* Scène */
 .scene {
-  width: 100%;
-  height: 100%;
   position: relative;
-  transform-style: preserve-3d;
-  transition: transform 1s ease;
+  width: auto;
+  height: auto;
+  max-width: 90%;
+  max-height: 75vh; /* Réduit pour laisser place au texte */
+  display: flex;
+  flex-direction: column; /* Empile l'image et le texte */
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px; /* Espace entre l'image et le texte */
+}
+
+/* Nouveau conteneur pour l'image avec transition */
+.image-container {
+  position: relative;
+  height: 65vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .scene img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: translateZ(30px) scale(0.98);
+  position: static; /* ou supprime la ligne position */
+  width: auto;
+  height: auto;
+  max-height: 65vh; /* Ajusté pour le texte en dessous */
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.3);
   transition: transform 0.8s ease;
 }
 
-.scene:hover img {
-  transform: translateZ(60px) scale(1.02);
-}
-
-/* Texte */
+/* Nouveau style pour le texte */
 .text-box {
-  position: absolute;
-  bottom: 5%;
-  left: 5%;
-  right: 5%;
-  background: rgba(255,255,255,0.85);
+  position: relative; /* Changé de absolute à relative */
+  width: 90%;
+  background: rgba(255, 255, 255, 0.95);
+  color: #4a4a4a;
   padding: 20px;
   border-radius: 15px;
-  font-size: 1.2rem;
-  transform: translateZ(80px);
+  font-family: 'MedievalSharp', cursive;
+  font-size: 1.4rem;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border: 2px solid #ffb84d;
+}
+
+
+/* Animation du texte uniquement au chargement initial */
+.text-box {
+  position: relative;
+  width: 90%;
+  background: rgba(255, 255, 255, 0.95);
+  color: #4a4a4a;
+  padding: 20px;
+  border-radius: 15px;
+  font-family: 'MedievalSharp', cursive;
+  font-size: 1.4rem;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border: 2px solid #ffb84d;
 }
 
 /* Navigation */
 .nav {
   position: absolute;
-  bottom: 15px;
-  right: 20px;
-}
-
-button {
-  font-size: 1.5rem;
-  padding: 8px 14px;
-  margin: 0 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
   background: #ffb84d;
   border: none;
-  border-radius: 10px;
+  color: white;
+  padding: 18px 28px;
+  border-radius: 50%;
+  font-size: 2.2rem;
   cursor: pointer;
-  transition: 0.3s;
+  box-shadow: 0 0 15px rgba(0,0,0,0.15);
+  transition: background 0.2s;
+  opacity: 0.95;
 }
 
-button:hover {
+.nav-left {
+  left: -60px; /* Ajuste selon la largeur de ton image */
+}
+
+.nav-right {
+  right: -60px; /* Ajuste selon la largeur de ton image */
+}
+
+.nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.nav:hover:not(:disabled) {
   background: #ffd280;
+}
+
+/* Style amélioré pour les boutons */
+button {
+  background: #ffb84d;
+  border: 2px solid #fff;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: 'MedievalSharp', cursive;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
 }
 
 /* Barre de progression */
 #progress-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 6px;
-  background: rgba(0,0,0,0.1);
+  position: fixed;
+  top: 10px;
+  left: 2.5vw;
+  width: 95vw;
+  height: 8px;
+  background: rgba(0,0,0,0.3);
+  z-index: 100;
+  border-radius: 4px;
 }
 
 #progress {
   height: 100%;
-  background: #ffb84d;
-  width: 5%;
-  transition: width 0.4s ease;
+  background: rgba(255,184,77,0.8);
+  backdrop-filter: blur(5px);
 }
 
 /* Bouton musique */
 .music-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(255,255,255,0.8);
-  border: 2px solid #ffb84d;
-  border-radius: 12px;
-  padding: 6px 12px;
-  font-size: 1rem;
-  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255,184,77,0.8);
+  backdrop-filter: blur(5px);
+  color: white;
+  z-index: 100;
+}
+
+.loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  color: #ffb84d;
 }

@@ -1,37 +1,50 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Loup et les 7 Chevreaux – Conte interactif</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div id="book-container">
-      <!-- Barre de progression -->
-      <div id="progress-bar"><div id="progress"></div></div>
+    <link rel="stylesheet" href="style.css">
+    <!-- Ajout de Vue.js via CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div id="book-container" v-if="isLoaded">
+            <!-- Barre de progression -->
+            <div id="progress-bar">
+                <div id="progress" :style="{ width: progressWidth + '%' }"></div>
+            </div>
 
-      <!-- Scène -->
-      <div id="scene" class="scene">
-        <img id="scene-image" src="assets/images/scene1.jpg" alt="Scène 1" />
-        <div id="text-box" class="text-box">
-          <p id="scene-text">
-            Il était une fois, une maman chèvre et ses sept chevreaux...
-          </p>
+            <!-- Scène -->
+            <div class="scene">
+                <img :src="currentScene.img" :alt="'Scène ' + (currentIndex + 1)" :key="currentIndex">
+                <button class="nav nav-left" @click="previousScene" :disabled="currentIndex === 0">◀</button>
+                <button class="nav nav-right" @click="nextScene" :disabled="currentIndex === scenes.length - 1">▶</button>
+                <div class="text-box">
+                    <p :key="currentIndex">{{ currentScene.text }}</p>
+                </div>
+            </div>
+
+            <!-- Musique -->
+            <audio ref="bgMusic" src="assets/audio/intro.mp3" loop></audio>
+            <button class="music-btn" @click="toggleMusic">
+                {{ isPlaying ? '🔈 Stop' : '🔊 Musique' }}
+            </button>
         </div>
-      </div>
-
-      <!-- Navigation -->
-      <div class="nav">
-        <button id="prevBtn">◀</button>
-        <button id="nextBtn">▶</button>
-      </div>
-
-      <!-- Musique -->
-      <audio id="bg-music" src="assets/audio/intro.mp3" loop></audio>
-      <button id="musicBtn" class="music-btn">🔊 Musique</button>
+        <div v-else class="loading">
+            Chargement du conte...
+        </div>
     </div>
 
-    <script src="script.js"></script>
-  </body>
+    <div class="image-container">
+        <img :src="currentScene.img" :alt="'Scène ' + (currentIndex + 1)" :key="currentIndex">
+    </div>
+
+    <script type="module">
+        import { app } from './app.js'
+        const { createApp } = Vue
+        createApp(app).mount('#app')
+    </script>
+</body>
 </html>
