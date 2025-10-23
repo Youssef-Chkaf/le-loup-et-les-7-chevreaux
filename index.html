@@ -11,6 +11,7 @@
 <body>
     <div id="app">
         <div id="book-container" v-if="isLoaded">
+        <div class="text-bg-fixed"></div>
             <!-- Barre de progression -->
             <div id="progress-bar">
                 <div id="progress" :style="{ width: progressWidth + '%' }"></div>
@@ -18,11 +19,15 @@
 
             <!-- Scène -->
             <div class="scene">
-                <img :src="currentScene.img" :alt="'Scène ' + (currentIndex + 1)" :key="currentIndex">
-                <button class="nav nav-left" @click="previousScene" :disabled="currentIndex === 0">◀</button>
-                <button class="nav nav-right" @click="nextScene" :disabled="currentIndex === scenes.length - 1">▶</button>
+                <transition name="page">
+                    <img 
+                        :src="currentScene.img" 
+                        :alt="'Scène ' + (currentIndex + 1)" 
+                        :key="currentIndex"
+                    >
+                </transition>
                 <div class="text-box">
-                    <p :key="currentIndex">{{ currentScene.text }}</p>
+                    <p :key="currentIndex">{{ displayedText }}</p>
                 </div>
             </div>
 
@@ -35,10 +40,11 @@
         <div v-else class="loading">
             Chargement du conte...
         </div>
-    </div>
 
-    <div class="image-container">
-        <img :src="currentScene.img" :alt="'Scène ' + (currentIndex + 1)" :key="currentIndex">
+        <!-- Boutons de navigation fixes sur l'écran -->
+        <button class="nav nav-left" @click="previousScene" :disabled="currentIndex === 0">◀</button>
+        <button class="nav nav-right" @click="nextScene" :disabled="currentIndex === scenes.length - 1">▶</button>
+
     </div>
 
     <script type="module">

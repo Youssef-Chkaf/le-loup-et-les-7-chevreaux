@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Playfair+Display:wght@600&family=Quicksand:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Playfair+Display:wght@600&display=swap');
 
 body {
   margin: 0;
@@ -24,13 +24,13 @@ body {
 
 /* Scène */
 .scene {
-  position: relative;
+  position: relative; /* Important pour que les enfants absolus soient positionnés par rapport à la scène */
   width: auto;
-  height: auto;
+  height: 75vh; /* Hauteur fixe pour la scène */
   max-width: 90%;
-  max-height: 75vh; /* Réduit pour laisser place au texte */
+  max-height: 75vh;
   display: flex;
-  flex-direction: column; /* Empile l'image et le texte */
+  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   gap: 20px; /* Espace entre l'image et le texte */
@@ -45,55 +45,104 @@ body {
   align-items: center;
 }
 
+/* Animation des images */
 .scene img {
-  position: static; /* ou supprime la ligne position */
+  position: static;
   width: auto;
   height: auto;
-  max-height: 65vh; /* Ajusté pour le texte en dessous */
+  max-height: 65vh;
   max-width: 100%;
   object-fit: contain;
   border-radius: 15px;
   box-shadow: 0 0 30px rgba(0,0,0,0.3);
-  transition: transform 0.8s ease;
+  transition: all 0.8s ease;
+  transform-origin: left center;
+  backface-visibility: hidden;
+}
+
+/* Classes pour l'animation */
+.page-enter-active {
+  animation: turnPage 0.8s ease forwards;
+}
+
+.page-leave-active {
+  animation: turnPageOut 0.8s ease forwards;
+}
+
+/* Keyframes pour l'animation de page qui tourne */
+@keyframes turnPage {
+  0% {
+    transform: perspective(1500px) rotateY(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: perspective(1500px) rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes turnPageOut {
+  0% {
+    transform: perspective(1500px) rotateY(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(1500px) rotateY(-90deg);
+    opacity: 0;
+  }
 }
 
 /* Nouveau style pour le texte */
 .text-box {
-  position: relative; /* Changé de absolute à relative */
-  width: 90%;
-  background: rgba(255, 255, 255, 0.95);
+  position: fixed;
+  left: 50%;
+  bottom: 1px;
+  transform: translateX(-50%);
+  width: 90vw;
+  max-width: 900px;
+  min-height: 90px;
+  height: 120px;
+  background: transparent; /* plus de fond ici */
   color: #4a4a4a;
   padding: 20px;
   border-radius: 15px;
-  font-family: 'MedievalSharp', cursive;
-  font-size: 1.4rem;
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: 22px;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
   text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
-  border: 2px solid #ffb84d;
+  box-shadow: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: auto;
 }
 
-
-/* Animation du texte uniquement au chargement initial */
-.text-box {
-  position: relative;
-  width: 90%;
-  background: rgba(255, 255, 255, 0.95);
-  color: #4a4a4a;
-  padding: 20px;
+/* Texte avec fond fixe */
+.text-bg-fixed {
+  position: fixed;
+  left: 50%;
+  bottom: 20px; /* même valeur que .text-box si besoin */
+  transform: translateX(-50%);
+  width: 90vw;
+  max-width: 950px;
+  height: 120px; /* même hauteur que .text-box */
+  background: rgba(236, 232, 193, 0.95);
   border-radius: 15px;
-  font-family: 'MedievalSharp', cursive;
-  font-size: 1.4rem;
-  text-align: center;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
-  border: 2px solid #ffb84d;
+  border: 2px solid #d1c890;
+  z-index: 900; /* juste sous la .text-box */
+  pointer-events: none; /* pour ne pas gêner les clics */
 }
 
 /* Navigation */
 .nav {
-  position: absolute;
+  position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 10;
+  z-index: 1000;
   background: #ffb84d;
   border: none;
   color: white;
@@ -107,11 +156,11 @@ body {
 }
 
 .nav-left {
-  left: -60px; /* Ajuste selon la largeur de ton image */
+  left: 30px;
 }
 
 .nav-right {
-  right: -60px; /* Ajuste selon la largeur de ton image */
+  right: 30px;
 }
 
 .nav:disabled {
@@ -157,7 +206,7 @@ button {
 /* Bouton musique */
 .music-btn {
   position: fixed;
-  top: 20px;
+  top: 30px;
   right: 20px;
   background: rgba(255,184,77,0.8);
   backdrop-filter: blur(5px);
