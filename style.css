@@ -25,7 +25,7 @@ body {
 
 /* ====== Scène / image / transitions ====== */
 .scene {
-  position: relative; /* Important pour que les enfants absolus soient positionnés par rapport à la scène */
+  position: relative; 
   width: auto;
   height: 75vh; /* Hauteur fixe pour la scène */
   max-width: 90%;
@@ -55,8 +55,11 @@ body {
   object-fit: contain;
   border-radius: 15px;
   box-shadow: 0 0 30px rgba(0,0,0,0.3);
-  transition: all 0.8s ease;
-  transform-origin: left center;
+  transition: none;
+
+  /* rotation autour du centre pour éviter tout glissement latéral */
+  transform-origin: center center;
+
   backface-visibility: hidden;
   z-index: 10; /* Plus haut que .ambient-animations */
 }

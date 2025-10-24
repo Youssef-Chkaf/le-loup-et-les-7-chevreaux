@@ -36,7 +36,7 @@
             <!-- ----- Scène (image + interactions) ----- -->
             <div class="scene">
                 <div class="image-container">
-                    <transition name="page">
+                    <transition name="page" mode="out-in">
                         <img 
                             :src="currentScene.img" 
                             :alt="'Scène ' + (currentIndex + 1)" 

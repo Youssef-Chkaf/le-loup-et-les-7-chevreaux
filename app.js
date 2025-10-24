@@ -1,7 +1,6 @@
 import { scenes } from './scenes.js'
 
 // ----- Export de l'objet Vue (app) -----
-// Structure : data, computed, watch, methods, mounted
 export const app = {
   // ----- Etat local (data) -----
   data() {
