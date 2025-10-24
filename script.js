@@ -36,6 +36,14 @@ function updateScene() {
   textEl.textContent = scene.text;
   const progress = ((current + 1) / scenes.length) * 100;
   progressEl.style.width = progress + "%";
+  // Nettoyer d'anciens spots (au cas où)
+document.querySelectorAll('.chevreau-spot').forEach(el => el.remove());
+
+// Si c'est la scène 9, on lance le mini-jeu
+if (scene.interactive && scene.chevreaux) {
+  setupChevreauxMiniGame(scene);
+}
+
 }
 
 document.getElementById("nextBtn").addEventListener("click", () => {
@@ -64,5 +72,38 @@ musicBtn.addEventListener("click", () => {
     musicBtn.textContent = "🔊 Musique";
   }
 });
+
+function setupChevreauxMiniGame(scene) {
+  const container = document.querySelector('.image-container');
+  if (!scene.interactive || !scene.chevreaux) return;
+
+  let found = 0;
+  const total = scene.chevreaux.length;
+
+  scene.chevreaux.forEach((ch) => {
+    const spot = document.createElement('div');
+    spot.classList.add('chevreau-spot');
+    spot.style.left = ch.x;
+    spot.style.top = ch.y;
+    container.appendChild(spot);
+
+    spot.addEventListener('click', () => {
+      if (!spot.classList.contains('found')) {
+        spot.classList.add('found');
+        found++;
+        if (found === total) {
+          unlockCarousel();
+        }
+      }
+    });
+  });
+}
+
+function unlockCarousel() {
+  const nextBtn = document.querySelector('.nav-right');
+  nextBtn.disabled = false;
+  nextBtn.classList.add('unlocked');
+}
+
 
 updateScene();

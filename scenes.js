@@ -39,11 +39,17 @@ export const scenes = [
     img: "assets/images/8.png",
     text: "Hélas ! Trompés par la ruse du loup, les chevreaux ouvrirent la porte. Le chaos s'installa dans la maison : les petits couraient dans tous les sens, renversant les meubles, cherchant désespérément un refuge !"
   },
-  {
-    id: 9,
-    img: "assets/images/9.png",
-    text: "Les chevreaux se cachèrent partout : derrière les rideaux, sous le lit, dans l'armoire, sous la table... Mais le plus jeune et le plus malin trouva la meilleure cachette : la grande horloge du salon !"
-  },
+{
+  id: 9,
+  img: "assets/images/9.png",
+  text: "Les chevreaux se cachèrent partout : derrière les rideaux, sous le lit, dans l'armoire, sous la table... Mais le plus jeune et le plus malin trouva la meilleure cachette : la grande horloge du salon !",
+  interactive: true, // Scène spéciale avec mini-jeu
+  chevreaux: [
+    { x: "17%", y: "63%" },
+    { x: "69%", y: "64%" }
+  ]
+},
+
   {
     id: 10,
     img: "assets/images/10.png",
@@ -82,8 +88,12 @@ export const scenes = [
   {
     id: 17,
     img: "assets/images/17.png",
-    text: "Les chevreaux s'empressèrent de remplir le ventre du loup avec de lourdes pierres. La mère recousit soigneusement l'ouverture, si bien que le loup ne sentit rien."
-  },
+    text: "Les chevreaux s'empressèrent de remplir le ventre du loup avec de lourdes pierres. La mère recousit soigneusement l'ouverture, si bien que le loup ne sentit rien.",
+    caillouxGame: true, // Ajout pour le mini-jeu
+    cailloux: [
+      { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }
+    ]
+},
   {
     id: 18,
     img: "assets/images/18.png",

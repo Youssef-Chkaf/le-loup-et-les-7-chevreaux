@@ -9,7 +9,11 @@ export const app = {
       isLoaded: false,
       displayedText: "",
       typingInterval: null,
-      narrationAudio: null
+      narrationAudio: null,
+      foundChevreaux: [],
+      canGoNext: true,
+      caillouxInVentre: [],
+      draggedCaillou: null
     }
   },
   computed: {
@@ -18,11 +22,19 @@ export const app = {
     },
     progressWidth() {
       return ((this.currentIndex + 1) / this.scenes.length) * 100
+    },
+    caillouxRestants() {
+      if (!this.currentScene.cailloux) return []
+      return this.currentScene.cailloux.filter(c => !this.caillouxInVentre.some(c2 => c2.id === c.id))
     }
   },
   watch: {
     currentIndex() {
       this.startTyping()
+      this.foundChevreaux = []
+      this.caillouxInVentre = []
+      this.draggedCaillou = null
+      this.canGoNext = !this.currentScene.interactive && !this.currentScene.caillouxGame
     }
   },
   methods: {
@@ -78,7 +90,60 @@ export const app = {
           clearInterval(this.typingInterval)
         }
       }, 40) // Vitesse plus rapide (8 ms par lettre)
-    } 
+    },
+    findChevreau(idx) {
+      if (!this.foundChevreaux.includes(idx)) {
+        this.foundChevreaux.push(idx);
+        // Si tous trouvés, débloquer la navigation
+        if (
+          this.currentScene.chevreaux &&
+          this.foundChevreaux.length === this.currentScene.chevreaux.length
+        ) {
+          // Par exemple, tu peux activer le bouton suivant ici
+          this.canGoNext = true;
+        }
+      }
+    },
+    startDragCaillou(caillou, event) {
+      // Mettre l'id dans dataTransfer pour le drop natif
+      try {
+        event.dataTransfer.setData('text/plain', String(caillou.id));
+        event.dataTransfer.effectAllowed = 'move';
+      } catch (err) {
+        // certains environnements empêchent setData sur SVG : on utilise le fallback
+      }
+      // fallback JS pour s'assurer qu'on sait quel caillou bouger
+      this.draggedCaillou = caillou;
+    },
+    // touch fallback (mobile)
+    startTouchCaillou(caillou) {
+      this.draggedCaillou = caillou;
+    },
+    dropCaillou(e) {
+      // Récupère d'abord via dataTransfer si disponible, sinon utilise le fallback draggedCaillou
+      let caillou = null;
+      try {
+        const id = e.dataTransfer ? e.dataTransfer.getData('text/plain') : null;
+        if (id) {
+          caillou = this.currentScene.cailloux.find(c => String(c.id) === String(id));
+        }
+      } catch (err) {
+        // ignore
+      }
+      if (!caillou) {
+        caillou = this.draggedCaillou;
+      }
+      if (caillou && !this.caillouxInVentre.some(c => c.id === caillou.id)) {
+        this.caillouxInVentre.push(caillou);
+        this.draggedCaillou = null;
+        if (
+          this.currentScene.cailloux &&
+          this.caillouxInVentre.length === this.currentScene.cailloux.length
+        ) {
+          this.canGoNext = true
+        }
+      }
+    }
   },
   mounted() {
     // Préchargement des images

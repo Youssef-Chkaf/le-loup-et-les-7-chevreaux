@@ -47,7 +47,7 @@ body {
 
 /* Animation des images */
 .scene img {
-  position: static;
+  position: relative;
   width: auto;
   height: auto;
   max-height: 65vh;
@@ -58,6 +58,7 @@ body {
   transition: all 0.8s ease;
   transform-origin: left center;
   backface-visibility: hidden;
+  z-index: 10; /* Plus haut que .ambient-animations */
 }
 
 /* Classes pour l'animation */
@@ -165,6 +166,7 @@ body {
 
 .nav:disabled {
   opacity: 0.4;
+  
   cursor: not-allowed;
 }
 
@@ -221,4 +223,197 @@ button {
   transform: translate(-50%, -50%);
   font-size: 1.5rem;
   color: #ffb84d;
+}
+
+.ambient-animations {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2; /* Doit être inférieur à .scene img */
+}
+
+.bird-paper {
+  position: absolute;
+  top: 10vh;
+  left: -60px;
+  width: 60px;
+  height: 30px;
+  opacity: 0.85;
+  animation: birdFlyCurve 14s linear infinite;
+}
+
+.bird-paper:nth-child(2) {
+  top: 18vh;
+  left: -80px;
+  opacity: 0.7;
+  transform: scale(0.8);
+  animation-delay: 4s;
+}
+
+.bird-paper:nth-child(3) {
+  top: 25vh;
+  left: -100px;
+  opacity: 0.6;
+  transform: scale(0.6);
+  animation-delay: 8s;
+}
+
+@keyframes birdFlyCurve {
+  0% {
+    transform: translateX(0) translateY(0) scale(1);
+    opacity: 0.85;
+  }
+  20% {
+    transform: translateX(20vw) translateY(-4vh) scale(1);
+  }
+  50% {
+    transform: translateX(50vw) translateY(-10vh) scale(1);
+    opacity: 1;
+  }
+  75% {
+    transform: translateX(80vw) translateY(2vh) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(105vw) translateY(10vh) scale(1);
+    opacity: 0;
+  }
+
+  
+}
+
+.bird-paper-2 {
+  position: absolute;
+  top: 10vh;
+  left: -60px;
+  width: 60px;
+  height: 30px;
+  opacity: 0.85;
+  animation: birdFlyCurve2 14s linear infinite;
+}
+
+.bird-paper-2:nth-child(2) {
+  top: 18vh;
+  left: -80px;
+  opacity: 0.7;
+  transform: scale(0.8);
+  animation-delay: 4s;
+}
+
+.bird-paper-2:nth-child(3) {
+  top: 25vh;
+  left: -100px;
+  opacity: 0.6;
+  transform: scale(0.6);
+  animation-delay: 8s;
+}
+
+@keyframes birdFlyCurve2 {
+  0% {
+    transform: translateX(0) translateY(20vh) scale(1);
+    opacity: 0.85;
+  }
+  30% {
+    transform: translateX(30vw) translateY(10vh) scale(1);
+  }
+  60% {
+    transform: translateX(60vw) translateY(25vh) scale(1);
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(85vw) translateY(30vh) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(105vw) translateY(40vh) scale(1);
+    opacity: 0;
+  }
+
+  
+}
+
+/* --- Mini-jeu : trouver les chevreaux --- */
+.chevreau-spot {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  background: transparent;
+  border-radius: 50%;
+  border: none;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+
+.chevreau-spot:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.chevreau-spot.found {
+  background: rgba(77, 255, 120, 0.3); /* Optionnel: petit effet quand trouvé */
+  border: none;
+}
+
+.mini-game_instructions {
+  position: fixed;
+  top: 30px; /* sous la barre de progression (top:10px + height:8px + marge) */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 18px;
+  color: #121212;
+  pointer-events: none; /* laisse passer les clics/drag vers l'image et les spots */
+}
+
+.cailloux-game {
+  position: absolute;
+  bottom: 8%; /* n'affecte pas les emplacements déjà définis, ajuste si nécessaire */
+  left: 43%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+  z-index: 250;
+}
+
+.loup-ventre-dropzone {
+  width: 80px;
+  height: 120px;
+  background: rgba(255,255,255,0.06);
+  border: 2px dashed rgba(120,120,120,0.25);
+  border-radius: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #666;
+  z-index: 260;
+}
+
+.cailloux-list {
+  display: flex;
+  gap: 10px;
+  z-index: 260;
+}
+
+.caillou-svg {
+  width: 36px;
+  height: 36px;
+  cursor: grab;
+  display: block;
+}
+
+.draggable-caillou {
+  display: inline-block;
+  touch-action: none;
+}
+.draggable-caillou .caillou-svg {
+  pointer-events: auto;
 }
