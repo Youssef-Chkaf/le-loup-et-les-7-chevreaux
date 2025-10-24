@@ -15,7 +15,17 @@ export const app = {
       foundChevreaux: [],
       canGoNext: true,
       caillouxInVentre: [],
-      draggedCaillou: null
+      draggedCaillou: null,
+
+      // affichage de la page crédits
+      showCredits: false,
+
+      // chemins par défaut pour les trois icônes (placez vos PNG dans assets/icons/)
+      creditsIcons: [
+        'assets/icons/icon1.png',
+        'assets/icons/icon2.png',
+        'assets/icons/icon3.png'
+      ]
     }
   },
 
@@ -154,6 +164,20 @@ export const app = {
           this.caillouxInVentre.length === this.currentScene.cailloux.length
         ) {
           this.canGoNext = true
+        }
+      }
+    },
+
+    // Basculer l'affichage de la page crédits
+    toggleCredits() {
+      this.showCredits = !this.showCredits;
+      // si overlay ouvert, mettre en pause la musique d'ambiance, sinon relancer si l'utilisateur l'a activée
+      const audio = this.$refs && this.$refs.bgMusic;
+      if (audio) {
+        if (this.showCredits) {
+          audio.pause();
+        } else {
+          if (this.isPlaying) audio.play();
         }
       }
     }

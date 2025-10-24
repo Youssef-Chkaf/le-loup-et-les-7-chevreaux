@@ -97,6 +97,22 @@
             <button class="music-btn" @click="toggleMusic">
                 {{ isPlaying ? '🔈 Stop' : '🔊 Musique' }}
             </button>
+
+            <!-- Bouton crédits (juste en dessous du bouton musique) -->
+            <button class="credits-btn" @click="toggleCredits" aria-expanded="false">
+                Crédits
+            </button>
+
+            <!-- Overlay crédits -->
+            <div v-if="showCredits" class="credits-overlay" @click.self="toggleCredits">
+              <div class="credits-content" role="dialog" aria-modal="true" aria-label="Crédits">
+                <h2>Réalisé par Chkaf youssef<br><small>étudiant en mmi3</small></h2>
+                <div class="credits-icons" aria-hidden="false">
+                  <img v-for="(ic, i) in creditsIcons" :key="i" :src="ic" class="credit-icon" alt="Icone de crédit">
+                </div>
+                <button class="close-credits" @click="toggleCredits">Fermer</button>
+              </div>
+            </div>
         </div>
 
         <!-- Écran de chargement -->
