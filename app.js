@@ -1,6 +1,9 @@
 import { scenes } from './scenes.js'
 
+// ----- Export de l'objet Vue (app) -----
+// Structure : data, computed, watch, methods, mounted
 export const app = {
+  // ----- Etat local (data) -----
   data() {
     return {
       scenes: scenes,
@@ -16,6 +19,8 @@ export const app = {
       draggedCaillou: null
     }
   },
+
+  // ----- Calculés (computed) -----
   computed: {
     currentScene() {
       return this.scenes[this.currentIndex]
@@ -28,6 +33,8 @@ export const app = {
       return this.currentScene.cailloux.filter(c => !this.caillouxInVentre.some(c2 => c2.id === c.id))
     }
   },
+
+  // ----- Observers (watch) -----
   watch: {
     currentIndex() {
       this.startTyping()
@@ -37,7 +44,10 @@ export const app = {
       this.canGoNext = !this.currentScene.interactive && !this.currentScene.caillouxGame
     }
   },
+
+  // ----- Méthodes de l'application -----
   methods: {
+    // Lecture de la narration audio de la scène actuelle
     playNarration() {
       if (this.narrationAudio) {
         this.narrationAudio.pause();
@@ -52,20 +62,23 @@ export const app = {
       });
     },
 
+    // Navigation : scène suivante
     nextScene() {
       if (this.currentIndex < this.scenes.length - 1) {
         this.currentIndex++;
-        this.playNarration(); // Jouer l'audio de la nouvelle scène
+        this.playNarration();
       }
     },
 
+    // Navigation : scène précédente
     previousScene() {
       if (this.currentIndex > 0) {
         this.currentIndex--;
-        this.playNarration(); // Jouer l'audio de la nouvelle scène
+        this.playNarration();
       }
     },
 
+    // Contrôle musique d'ambiance
     toggleMusic() {
       const audio = this.$refs.bgMusic
       if (this.isPlaying) {
@@ -76,8 +89,9 @@ export const app = {
       }
       this.isPlaying = !this.isPlaying
     },
+
+    // Effet de saisie du texte (typing)
     startTyping() {
-      // Efface le texte précédent et stoppe l'ancien timer
       clearInterval(this.typingInterval)
       this.displayedText = ""
       const fullText = this.currentScene.text
@@ -89,38 +103,40 @@ export const app = {
         } else {
           clearInterval(this.typingInterval)
         }
-      }, 40) // Vitesse plus rapide (8 ms par lettre)
+      }, 40)
     },
+
+    // ----- Mini-jeu chevreaux : gestion des trouvailles -----
     findChevreau(idx) {
       if (!this.foundChevreaux.includes(idx)) {
         this.foundChevreaux.push(idx);
-        // Si tous trouvés, débloquer la navigation
         if (
           this.currentScene.chevreaux &&
           this.foundChevreaux.length === this.currentScene.chevreaux.length
         ) {
-          // Par exemple, tu peux activer le bouton suivant ici
           this.canGoNext = true;
         }
       }
     },
+
+    // ----- Mini-jeu cailloux : drag & drop -----
     startDragCaillou(caillou, event) {
-      // Mettre l'id dans dataTransfer pour le drop natif
       try {
         event.dataTransfer.setData('text/plain', String(caillou.id));
         event.dataTransfer.effectAllowed = 'move';
       } catch (err) {
-        // certains environnements empêchent setData sur SVG : on utilise le fallback
+        // fallback : certains environnements limitent setData sur SVG
       }
-      // fallback JS pour s'assurer qu'on sait quel caillou bouger
       this.draggedCaillou = caillou;
     },
-    // touch fallback (mobile)
+
+    // Fallback tactile (mobile/tablette)
     startTouchCaillou(caillou) {
       this.draggedCaillou = caillou;
     },
+
+    // Dépôt du caillou dans la dropzone
     dropCaillou(e) {
-      // Récupère d'abord via dataTransfer si disponible, sinon utilise le fallback draggedCaillou
       let caillou = null;
       try {
         const id = e.dataTransfer ? e.dataTransfer.getData('text/plain') : null;
@@ -130,9 +146,7 @@ export const app = {
       } catch (err) {
         // ignore
       }
-      if (!caillou) {
-        caillou = this.draggedCaillou;
-      }
+      if (!caillou) caillou = this.draggedCaillou;
       if (caillou && !this.caillouxInVentre.some(c => c.id === caillou.id)) {
         this.caillouxInVentre.push(caillou);
         this.draggedCaillou = null;
@@ -145,8 +159,10 @@ export const app = {
       }
     }
   },
+
+  // ----- Montage (préchargement et initialisation) -----
   mounted() {
-    // Préchargement des images
+    // Préchargement images puis initialisation de l'affichage et narration
     Promise.all(this.scenes.map(scene => {
       return new Promise((resolve) => {
         const img = new Image();
@@ -156,12 +172,10 @@ export const app = {
     })).then(() => {
       this.isLoaded = true;
       this.startTyping();
-      
-      // Attendre 1 seconde puis lancer le premier audio
+
+      // Lancer la première narration après un délai
       setTimeout(() => {
-        const firstAudio = new Audio('assets/audio/1.mp3');
-        firstAudio.volume = 0.95;
-        firstAudio.play();
+        this.playNarration();
       }, 1000);
     });
   }

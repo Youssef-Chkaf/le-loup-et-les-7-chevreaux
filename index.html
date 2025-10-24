@@ -10,14 +10,16 @@
 </head>
 <body>
     <div id="app">
+        <!-- ----- Conteneur principal (chargement) ----- -->
         <div id="book-container" v-if="isLoaded">
-        <div class="text-bg-fixed"></div>
-            <!-- Barre de progression -->
+            <div class="text-bg-fixed"></div>
+
+            <!-- ----- Barre de progression ----- -->
             <div id="progress-bar">
                 <div id="progress" :style="{ width: progressWidth + '%' }"></div>
             </div>
 
-            <!-- Instructions mini‑jeux (sous la barre, au‑dessus de l'image) -->
+            <!-- ----- Instructions mini-jeux (sous la barre) ----- -->
             <div
               v-if="(currentScene.interactive && currentScene.chevreaux) || (currentScene.caillouxGame && currentScene.cailloux)"
               class="mini-game_instructions"
@@ -27,12 +29,12 @@
                 Trouve les deux chevreaux cachés dans l'image pour passer à la prochaine scène !
               </p>
               <p v-else-if="currentScene.caillouxGame && currentScene.cailloux">
-                Aide les chevreaux à glisser les cailloux dans le ventre du loup pour s'échapper !</p>
+                Aide les chevreaux à glisser les cailloux dans le ventre du loup pour s'échapper !
+              </p>
             </div>
 
-            <!-- Scène -->
+            <!-- ----- Scène (image + interactions) ----- -->
             <div class="scene">
-              
                 <div class="image-container">
                     <transition name="page">
                         <img 
@@ -84,22 +86,25 @@
                     </div>
                 </div>
 
+                <!-- ----- Texte narratif (boîte fixe en bas) ----- -->
                 <div class="text-box">
                     <p :key="currentIndex">{{ displayedText }}</p>
                 </div>
             </div>
 
-            <!-- Musique -->
+            <!-- ----- Musique et contrôle ----- -->
             <audio ref="bgMusic" src="assets/audio/intro.mp3" loop></audio>
             <button class="music-btn" @click="toggleMusic">
                 {{ isPlaying ? '🔈 Stop' : '🔊 Musique' }}
             </button>
         </div>
+
+        <!-- Écran de chargement -->
         <div v-else class="loading">
             Chargement du conte...
         </div>
 
-        <!-- Boutons de navigation fixes sur l'écran -->
+        <!-- ----- Boutons de navigation fixes ----- -->
         <button class="nav nav-left" @click="previousScene" :disabled="currentIndex === 0">◀</button>
         <button class="nav nav-right" @click="nextScene" :disabled="(!canGoNext) || currentIndex === scenes.length - 1">▶</button>
 

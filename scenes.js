@@ -1,4 +1,8 @@
+// ----- Définition des scènes -----
+// Contient la liste des scènes (id, img, text, mini-jeux éventuels)
+// ...existing code...
 export const scenes = [
+  // Scènes 1..8 : narration
   {
     id: 1,
     img: "assets/images/1.png",
@@ -39,16 +43,18 @@ export const scenes = [
     img: "assets/images/8.png",
     text: "Hélas ! Trompés par la ruse du loup, les chevreaux ouvrirent la porte. Le chaos s'installa dans la maison : les petits couraient dans tous les sens, renversant les meubles, cherchant désespérément un refuge !"
   },
-{
-  id: 9,
-  img: "assets/images/9.png",
-  text: "Les chevreaux se cachèrent partout : derrière les rideaux, sous le lit, dans l'armoire, sous la table... Mais le plus jeune et le plus malin trouva la meilleure cachette : la grande horloge du salon !",
-  interactive: true, // Scène spéciale avec mini-jeu
-  chevreaux: [
-    { x: "17%", y: "63%" },
-    { x: "69%", y: "64%" }
-  ]
-},
+
+  // ----- Scène interactive : trouver les chevreaux -----
+  {
+    id: 9,
+    img: "assets/images/9.png",
+    text: "Les chevreaux se cachèrent partout : derrière les rideaux, sous le lit, dans l'armoire, sous la table... Mais le plus jeune et le plus malin trouva la meilleure cachette : la grande horloge du salon !",
+    interactive: true,
+    chevreaux: [
+      { x: "17%", y: "63%" },
+      { x: "69%", y: "64%" }
+    ]
+  },
 
   {
     id: 10,
@@ -85,15 +91,18 @@ export const scenes = [
     img: "assets/images/16.png",
     text: "D'un coup de ciseau précis, elle ouvrit le ventre du loup endormi. Un par un, les six chevreaux en sortirent, sains et saufs ! Quelle joie de retrouver toute la famille réunie !"
   },
+
+  // ----- Scène interactive : jeu des cailloux -----
   {
     id: 17,
     img: "assets/images/17.png",
     text: "Les chevreaux s'empressèrent de remplir le ventre du loup avec de lourdes pierres. La mère recousit soigneusement l'ouverture, si bien que le loup ne sentit rien.",
-    caillouxGame: true, // Ajout pour le mini-jeu
+    caillouxGame: true,
     cailloux: [
       { id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }
     ]
-},
+  },
+
   {
     id: 18,
     img: "assets/images/18.png",
@@ -110,3 +119,4 @@ export const scenes = [
     text: "La famille vécut heureuse et en paix dans sa jolie maison. Les chevreaux n'oublièrent jamais cette leçon : il faut toujours écouter les conseils de sa maman ! FIN"
   }
 ];
+// ...existing code...

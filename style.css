@@ -1,3 +1,4 @@
+/* ====== Global ====== */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Playfair+Display:wght@600&display=swap');
 
 body {
@@ -22,7 +23,7 @@ body {
   background: transparent;
 }
 
-/* Scène */
+/* ====== Scène / image / transitions ====== */
 .scene {
   position: relative; /* Important pour que les enfants absolus soient positionnés par rapport à la scène */
   width: auto;
@@ -45,7 +46,6 @@ body {
   align-items: center;
 }
 
-/* Animation des images */
 .scene img {
   position: relative;
   width: auto;
@@ -61,7 +61,7 @@ body {
   z-index: 10; /* Plus haut que .ambient-animations */
 }
 
-/* Classes pour l'animation */
+/* ====== Animations ====== */
 .page-enter-active {
   animation: turnPage 0.8s ease forwards;
 }
@@ -93,7 +93,7 @@ body {
   }
 }
 
-/* Nouveau style pour le texte */
+/* ====== Texte / boîte de narration ====== */
 .text-box {
   position: fixed;
   left: 50%;
@@ -138,7 +138,7 @@ body {
   pointer-events: none; /* pour ne pas gêner les clics */
 }
 
-/* Navigation */
+/* ====== Navigation / contrôles ====== */
 .nav {
   position: fixed;
   top: 50%;
@@ -166,7 +166,6 @@ body {
 
 .nav:disabled {
   opacity: 0.4;
-  
   cursor: not-allowed;
 }
 
@@ -174,7 +173,7 @@ body {
   background: #ffd280;
 }
 
-/* Style amélioré pour les boutons */
+/* Styles amélioré pour les boutons */
 button {
   background: #ffb84d;
   border: 2px solid #fff;
@@ -187,7 +186,7 @@ button {
   transition: all 0.3s ease;
 }
 
-/* Barre de progression */
+/* ====== Barre de progression / musique / loading ====== */
 #progress-bar {
   position: fixed;
   top: 10px;
@@ -205,7 +204,6 @@ button {
   backdrop-filter: blur(5px);
 }
 
-/* Bouton musique */
 .music-btn {
   position: fixed;
   top: 30px;
@@ -225,6 +223,7 @@ button {
   color: #ffb84d;
 }
 
+/* ====== Animations d'ambiance (oiseaux) ====== */
 .ambient-animations {
   position: fixed;
   top: 0;
@@ -357,9 +356,10 @@ button {
   border: none;
 }
 
+/* Instruction mini-jeu (positionnée sous la progress bar) */
 .mini-game_instructions {
   position: fixed;
-  top: 30px; /* sous la barre de progression (top:10px + height:8px + marge) */
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 500;
@@ -370,9 +370,10 @@ button {
   pointer-events: none; /* laisse passer les clics/drag vers l'image et les spots */
 }
 
+/* --- Mini-jeu : cailloux --- */
 .cailloux-game {
   position: absolute;
-  bottom: 8%; /* n'affecte pas les emplacements déjà définis, ajuste si nécessaire */
+  bottom: 8%;
   left: 43%;
   transform: translateX(-50%);
   display: flex;
@@ -416,4 +417,96 @@ button {
 }
 .draggable-caillou .caillou-svg {
   pointer-events: auto;
+}
+
+/* ====== Media queries (tablette) ====== */
+@media (min-width: 600px) and (max-width: 1024px) {
+  /* Conteneur global */
+  #book-container {
+    width: 92vw;
+    height: 92vh;
+  }
+
+  /* Scène / image */
+  .scene {
+    height: 82vh;
+    gap: 14px;
+  }
+  .image-container {
+    height: 70vh;
+  }
+  .scene img {
+    max-height: 70vh;
+    border-radius: 12px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+  }
+
+  /* Texte principal */
+  .text-box {
+    font-size: 20px;
+    height: 120px;
+    min-height: 100px;
+    padding: 18px;
+    max-width: 900px;
+  }
+  .text-bg-fixed {
+    width: 92vw;
+    max-width: 940px;
+  }
+
+  /* Barre de progression et instructions mini-jeux */
+  #progress-bar { top: 12px; height: 10px; left: 2.5vw; width: 95vw; }
+  .mini-game_instructions {
+    top: 38px;
+    font-size: 18px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    z-index: 600;
+  }
+
+  /* Navigation (plus large mais pas envahissante) */
+  .nav {
+    padding: 16px 22px;
+    font-size: 2rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  }
+  .nav-left { left: 20px; }
+  .nav-right { right: 20px; }
+
+  /* Mini-jeu chevreaux (zones un peu plus grandes) */
+  .chevreau-spot {
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+    z-index: 350;
+  }
+  .chevreau-spot.found {
+    background: rgba(77, 255, 120, 0.35);
+  }
+
+  /* Mini-jeu cailloux : position et tailles adaptées tablette */
+  .cailloux-game {
+    bottom: 6%;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 12px;
+    z-index: 350;
+  }
+  .loup-ventre-dropzone {
+    width: 160px;
+    height: 96px;
+    border-radius: 60px;
+    border-width: 2px;
+    z-index: 360;
+  }
+  .cailloux-list { gap: 12px; margin-top: 6px; }
+  .caillou-svg { width: 46px; height: 46px; }
+
+  /* Amélioration accesibilité tactile sur tablette */
+  .draggable-caillou { touch-action: manipulation; }
+  .draggable-caillou .caillou-svg { pointer-events: auto; }
+
+  /* S'assurer que les éléments interactifs restent au-dessus de l'image */
+  .image-container > * { z-index: 300; }
+  .text-box { z-index: 1000; } /* texte au-dessus de tout */
 }
